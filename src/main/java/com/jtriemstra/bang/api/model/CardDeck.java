@@ -1,0 +1,16 @@
+package com.jtriemstra.bang.api.model;
+
+import java.util.List;
+
+import com.jtriemstra.bang.api.model.card.Card;
+
+public interface CardDeck {
+
+	Card draw();
+
+	void addToTop(Card c);
+
+	int getSize();
+
+	void addAll(List<Card> cards);
+}
