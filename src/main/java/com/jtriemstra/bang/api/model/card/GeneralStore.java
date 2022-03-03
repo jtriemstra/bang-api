@@ -3,12 +3,12 @@ package com.jtriemstra.bang.api.model.card;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jtriemstra.bang.api.action.ChooseCardGeneralStore;
-import com.jtriemstra.bang.api.action.Waiting;
-import com.jtriemstra.bang.api.action.WaitingGeneralStore;
 import com.jtriemstra.bang.api.dto.response.ChooseCardResponse;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
 import com.jtriemstra.bang.api.model.Game;
+import com.jtriemstra.bang.api.model.action.ChooseCardGeneralStore;
+import com.jtriemstra.bang.api.model.action.Waiting;
+import com.jtriemstra.bang.api.model.action.WaitingGeneralStore;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class GeneralStore extends Card {

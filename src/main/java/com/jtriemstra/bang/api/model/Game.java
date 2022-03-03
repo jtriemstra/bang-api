@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.jtriemstra.bang.api.action.Quit;
+import com.jtriemstra.bang.api.model.action.Quit;
 import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.character.Character;
 import com.jtriemstra.bang.api.model.player.Player;

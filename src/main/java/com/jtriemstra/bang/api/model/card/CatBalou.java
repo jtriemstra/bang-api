@@ -3,11 +3,11 @@ package com.jtriemstra.bang.api.model.card;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jtriemstra.bang.api.action.ChooseTarget;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
 import com.jtriemstra.bang.api.dto.response.TargetingCardResponse;
 import com.jtriemstra.bang.api.model.Game;
+import com.jtriemstra.bang.api.model.action.ChooseTarget;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class CatBalou extends Card implements TargetingCard {

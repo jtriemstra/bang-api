@@ -3,17 +3,17 @@ package com.jtriemstra.bang.api.model.card;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jtriemstra.bang.api.action.Barrel;
-import com.jtriemstra.bang.api.action.ChooseTarget;
-import com.jtriemstra.bang.api.action.DefenseOptions;
-import com.jtriemstra.bang.api.action.DefenseRule;
-import com.jtriemstra.bang.api.action.Miss;
-import com.jtriemstra.bang.api.action.Waiting;
 import com.jtriemstra.bang.api.dto.response.TargetingCardResponse;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
 import com.jtriemstra.bang.api.dto.response.WaitingResponse;
 import com.jtriemstra.bang.api.model.Game;
+import com.jtriemstra.bang.api.model.action.Barrel;
+import com.jtriemstra.bang.api.model.action.ChooseTarget;
+import com.jtriemstra.bang.api.model.action.DefenseOptions;
+import com.jtriemstra.bang.api.model.action.DefenseRule;
+import com.jtriemstra.bang.api.model.action.Miss;
+import com.jtriemstra.bang.api.model.action.Waiting;
 import com.jtriemstra.bang.api.model.player.Player;
 
 

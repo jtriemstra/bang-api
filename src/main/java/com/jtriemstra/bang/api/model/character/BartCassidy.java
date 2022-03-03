@@ -1,6 +1,6 @@
 package com.jtriemstra.bang.api.model.character;
 
-import com.jtriemstra.bang.api.action.DefenseOptions;
+import com.jtriemstra.bang.api.model.action.DefenseOptions;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class BartCassidy extends Character {

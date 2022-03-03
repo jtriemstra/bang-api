@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-import com.jtriemstra.bang.api.action.DefenseRule;
-import com.jtriemstra.bang.api.action.Miss;
-import com.jtriemstra.bang.api.action.Play;
+import com.jtriemstra.bang.api.model.action.DefenseRule;
+import com.jtriemstra.bang.api.model.action.Miss;
+import com.jtriemstra.bang.api.model.action.Play;
 import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.card.JanetCardWrapper;
 import com.jtriemstra.bang.api.model.card.Playable;

@@ -1,12 +1,12 @@
 package com.jtriemstra.bang.api.model.character;
 
-import com.jtriemstra.bang.api.action.ActionList;
-import com.jtriemstra.bang.api.action.DefenseOptions;
-import com.jtriemstra.bang.api.action.DiscardRule;
-import com.jtriemstra.bang.api.action.Draw;
-import com.jtriemstra.bang.api.action.DrawSource;
-import com.jtriemstra.bang.api.action.DrawSourcePedroRamirez;
-import com.jtriemstra.bang.api.action.Play;
+import com.jtriemstra.bang.api.model.action.ActionList;
+import com.jtriemstra.bang.api.model.action.DefenseOptions;
+import com.jtriemstra.bang.api.model.action.DiscardRule;
+import com.jtriemstra.bang.api.model.action.Draw;
+import com.jtriemstra.bang.api.model.action.DrawSource;
+import com.jtriemstra.bang.api.model.action.DrawSourcePedroRamirez;
+import com.jtriemstra.bang.api.model.action.Play;
 
 public class PedroRamirez extends Character {
 	public PedroRamirez() {

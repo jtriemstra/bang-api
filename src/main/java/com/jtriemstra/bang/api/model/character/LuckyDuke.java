@@ -2,9 +2,9 @@ package com.jtriemstra.bang.api.model.character;
 
 import java.util.List;
 
-import com.jtriemstra.bang.api.action.Barrel;
-import com.jtriemstra.bang.api.action.DefenseRule;
-import com.jtriemstra.bang.api.action.LuckyDukeDraw;
+import com.jtriemstra.bang.api.model.action.Barrel;
+import com.jtriemstra.bang.api.model.action.DefenseRule;
+import com.jtriemstra.bang.api.model.action.LuckyDukeDraw;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class LuckyDuke extends Character {

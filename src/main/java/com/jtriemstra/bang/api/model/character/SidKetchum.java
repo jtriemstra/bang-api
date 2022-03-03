@@ -1,8 +1,8 @@
 package com.jtriemstra.bang.api.model.character;
 
-import com.jtriemstra.bang.api.action.ActionList;
-import com.jtriemstra.bang.api.action.DiscardRule;
-import com.jtriemstra.bang.api.action.DiscardSidKetchum;
+import com.jtriemstra.bang.api.model.action.ActionList;
+import com.jtriemstra.bang.api.model.action.DiscardRule;
+import com.jtriemstra.bang.api.model.action.DiscardSidKetchum;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class SidKetchum extends Character {

@@ -1,7 +1,7 @@
 package com.jtriemstra.bang.api.model.character;
 
-import com.jtriemstra.bang.api.action.Miss;
-import com.jtriemstra.bang.api.action.MissSlab;
+import com.jtriemstra.bang.api.model.action.Miss;
+import com.jtriemstra.bang.api.model.action.MissSlab;
 import com.jtriemstra.bang.api.model.card.Bang;
 import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.player.Player;

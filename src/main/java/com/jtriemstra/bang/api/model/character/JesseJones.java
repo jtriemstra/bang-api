@@ -1,10 +1,10 @@
 package com.jtriemstra.bang.api.model.character;
 
-import com.jtriemstra.bang.api.action.ActionList;
-import com.jtriemstra.bang.api.action.DiscardRule;
-import com.jtriemstra.bang.api.action.Draw;
-import com.jtriemstra.bang.api.action.DrawSourceJesseJones;
-import com.jtriemstra.bang.api.action.Play;
+import com.jtriemstra.bang.api.model.action.ActionList;
+import com.jtriemstra.bang.api.model.action.DiscardRule;
+import com.jtriemstra.bang.api.model.action.Draw;
+import com.jtriemstra.bang.api.model.action.DrawSourceJesseJones;
+import com.jtriemstra.bang.api.model.action.Play;
 
 public class JesseJones extends Character {
 	public JesseJones() {
