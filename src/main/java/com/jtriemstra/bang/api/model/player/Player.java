@@ -84,10 +84,6 @@ public class Player {
 		return response;
 	}
 	
-	public int getActionCount() {
-		return actions.size();
-	}
-	
 	public Map<UUID, Playable> getValidCards(PossibleActions nextActions, List<Card> cards, Player p) {
 		if (nextActions.contains("play")) {
 			if (nextActions.getByName("play") instanceof Miss) {
@@ -141,10 +137,6 @@ public class Player {
 	
 	public void draw() {
 		gain(this.game.draw());
-	}
-	
-	public Card getCardByName(String name) {
-		return hand.getByName(name);
 	}
 	
 	public int countCardsInHand(String... names) {

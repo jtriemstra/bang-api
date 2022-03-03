@@ -40,7 +40,6 @@ public class Game {
 	
 	public PlayerList getPlayers() {return players;}
 	public DiscardPile getDiscard() {return discard;}
-	public boolean getCanStart() {	return players.size() > 3;	}
 	
 	public void addPlayer(String name) {
 		playerNames.add(name);
@@ -121,10 +120,6 @@ public class Game {
 				return;
 			}
 		}
-	}
-
-	public String getCurrentPlayerName() {
-		return currentPlayer.getName();
 	}
 	
 	public void notify(String s) {
