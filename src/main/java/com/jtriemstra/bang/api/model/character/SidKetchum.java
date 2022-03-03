@@ -14,7 +14,7 @@ public class SidKetchum extends Character {
 	public void addActions(Player p, ActionList actions) {
 		//TODO: there may be an odd edge case where you want to play this in the middle of a normal discard process...
 		if (p.getHandSize() >= 2 && p.getCurrentHealth() < p.getMaxHealth() && !actions.getNext().contains("discardSidKetchum") && !actions.getNext().contains("discard")) {
-			actions.getNext().addAction(new DiscardRule(new DiscardSidKetchum(), 2));
+			actions.getNext().addAction(new DiscardRule(new DiscardSidKetchum(), 2, "discardRuleSid", false));
 		} else if (actions.getNext().contains("discardRuleSid")) {
 			actions.getNext().removeAction("discardRuleSid");
 		}

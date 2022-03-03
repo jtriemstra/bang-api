@@ -12,15 +12,17 @@ public class DiscardRule extends BaseAction {
 	private BaseAction discardAction;
 	private int discardCount = -1;
 	private String name = "discardRule";
+	private boolean popAction = true;
 	
 	public DiscardRule() {
 		
 	}
 	
-	public DiscardRule(BaseAction discardAction, int discardCount) {
+	public DiscardRule(BaseAction discardAction, int discardCount, String name, boolean popAction) {
 		this.discardAction = discardAction;
 		this.discardCount = discardCount;
-		this.name = "discardRuleSid";
+		this.name = name;
+		this.popAction = popAction;
 	}
 	
 	@Override
@@ -30,8 +32,7 @@ public class DiscardRule extends BaseAction {
 	
 	@Override
 	public BaseResponse execute(BaseRequest request, Player player, Game game) {
-		//TODO: clean out the sid references
-		if (name.equals("discardRuleSid")) {
+		if (!popAction) {
 			player.removeActionOption(name);
 		}
 		else {
