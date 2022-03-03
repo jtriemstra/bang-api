@@ -1,4 +1,4 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.deck;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.util.Assert;
+
+import com.jtriemstra.bang.api.model.Role;
 
 public class RoleDeck {
 	

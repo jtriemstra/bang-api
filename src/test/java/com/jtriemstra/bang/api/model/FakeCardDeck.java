@@ -11,6 +11,7 @@ import com.jtriemstra.bang.api.model.card.GeneralStore;
 import com.jtriemstra.bang.api.model.card.Indians;
 import com.jtriemstra.bang.api.model.card.Missed;
 import com.jtriemstra.bang.api.model.card.Winchester;
+import com.jtriemstra.bang.api.model.deck.CardDeck;
 
 public class FakeCardDeck implements CardDeck {
 

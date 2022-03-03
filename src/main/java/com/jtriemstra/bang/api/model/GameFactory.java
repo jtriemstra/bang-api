@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.jtriemstra.bang.api.model.deck.CardDeckFactory;
+import com.jtriemstra.bang.api.model.deck.CharacterDeckFactory;
+import com.jtriemstra.bang.api.model.deck.RoleDeck;
 import com.jtriemstra.bang.api.model.player.PlayerFactory;
 
 @Component

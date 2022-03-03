@@ -37,7 +37,6 @@ import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.request.StartRequest;
 import com.jtriemstra.bang.api.dto.request.WaitingRequest;
 import com.jtriemstra.bang.api.model.Role;
-import com.jtriemstra.bang.api.model.RoleDeck;
 import com.jtriemstra.bang.api.model.card.Bang;
 import com.jtriemstra.bang.api.model.card.Barrel;
 import com.jtriemstra.bang.api.model.card.Card;
@@ -46,6 +45,7 @@ import com.jtriemstra.bang.api.model.card.GeneralStore;
 import com.jtriemstra.bang.api.model.card.Indians;
 import com.jtriemstra.bang.api.model.card.Missed;
 import com.jtriemstra.bang.api.model.card.Winchester;
+import com.jtriemstra.bang.api.model.deck.RoleDeck;
 
 @SuppressWarnings(value="unchecked")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes=BangApiApplication.class)

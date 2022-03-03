@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.jtriemstra.bang.api.model.CardDeck;
-import com.jtriemstra.bang.api.model.CharacterDeck;
 import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.NotificationService;
-import com.jtriemstra.bang.api.model.RealCardDeck;
-import com.jtriemstra.bang.api.model.RoleDeck;
 import com.jtriemstra.bang.api.model.card.Card;
+import com.jtriemstra.bang.api.model.deck.CardDeck;
+import com.jtriemstra.bang.api.model.deck.CharacterDeck;
+import com.jtriemstra.bang.api.model.deck.RealCardDeck;
+import com.jtriemstra.bang.api.model.deck.RoleDeck;
 import com.jtriemstra.bang.api.model.player.PlayerFactoryMock;
 
 public class DeckTests extends TestBase {

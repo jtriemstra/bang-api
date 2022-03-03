@@ -1,4 +1,4 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.deck;
 
 import java.util.ArrayList;
 import java.util.List;

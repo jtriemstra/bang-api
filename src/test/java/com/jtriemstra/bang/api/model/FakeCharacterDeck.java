@@ -1,6 +1,7 @@
 package com.jtriemstra.bang.api.model;
 
 import com.jtriemstra.bang.api.model.character.Character;
+import com.jtriemstra.bang.api.model.deck.CharacterDeck;
 
 public class FakeCharacterDeck extends CharacterDeck {
 	private static int count=0;

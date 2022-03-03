@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.jtriemstra.bang.api.model.CharacterDeck;
 import com.jtriemstra.bang.api.dto.request.DefenseOptionsRequest;
 import com.jtriemstra.bang.api.dto.request.DrawSourceRequest;
 import com.jtriemstra.bang.api.dto.request.PassRequest;
@@ -22,8 +21,9 @@ import com.jtriemstra.bang.api.dto.request.WaitingRequest;
 import com.jtriemstra.bang.api.dto.response.TargetingCardResponse;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
-import com.jtriemstra.bang.api.model.RealCardDeck;
 import com.jtriemstra.bang.api.model.character.Character;
+import com.jtriemstra.bang.api.model.deck.CharacterDeck;
+import com.jtriemstra.bang.api.model.deck.RealCardDeck;
 import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.player.Player;
 import com.jtriemstra.bang.api.model.card.Bang;

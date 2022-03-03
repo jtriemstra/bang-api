@@ -28,7 +28,6 @@ import com.jtriemstra.bang.api.dto.response.ChooseCardResponse;
 import com.jtriemstra.bang.api.dto.response.DrawResponse;
 import com.jtriemstra.bang.api.dto.response.DrawSourceResponse;
 import com.jtriemstra.bang.api.dto.response.TargetingCardResponse;
-import com.jtriemstra.bang.api.model.CharacterDeck;
 import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.card.Bang;
 import com.jtriemstra.bang.api.model.card.Barrel;
@@ -51,6 +50,7 @@ import com.jtriemstra.bang.api.model.character.SidKetchum;
 import com.jtriemstra.bang.api.model.character.SlabTheKiller;
 import com.jtriemstra.bang.api.model.character.SuzyLafayette;
 import com.jtriemstra.bang.api.model.character.WillyTheKid;
+import com.jtriemstra.bang.api.model.deck.CharacterDeck;
 import com.jtriemstra.bang.api.model.player.Player;
 
 public class CharacterOverrideTests extends TestBase {

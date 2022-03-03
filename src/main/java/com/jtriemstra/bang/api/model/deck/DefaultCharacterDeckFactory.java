@@ -1,4 +1,4 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.deck;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
