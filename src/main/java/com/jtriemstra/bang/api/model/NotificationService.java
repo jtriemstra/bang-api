@@ -1,14 +1,7 @@
 package com.jtriemstra.bang.api.model;
 
-import org.springframework.stereotype.Service;
+public interface NotificationService {
 
-import lombok.extern.slf4j.Slf4j;
+	void notify(String s);
 
-@Service
-@Slf4j
-public class NotificationService {
-
-	public void notify(String s) {
-		log.info("** " + s);
-	}
 }

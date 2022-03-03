@@ -16,7 +16,7 @@ import com.jtriemstra.bang.api.dto.request.DiscardRequest;
 import com.jtriemstra.bang.api.dto.request.DrawRequest;
 import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.model.Game;
-import com.jtriemstra.bang.api.model.NotificationService;
+import com.jtriemstra.bang.api.model.LogNotificationService;
 import com.jtriemstra.bang.api.model.Role;
 import com.jtriemstra.bang.api.model.card.Bang;
 import com.jtriemstra.bang.api.model.card.Card;
@@ -125,7 +125,7 @@ public class TestBase {
 		RoleDeck roleDeck = Mockito.spy(new RoleDeck());
 		Mockito.doReturn(Role.SHERIFF, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW).when(roleDeck).draw();
 				
-		Game game = new Game("Test1", "Test1", charDeck, deck, Mockito.mock(NotificationService.class), new PlayerFactoryMock(), roleDeck);
+		Game game = new Game("Test1", "Test1", charDeck, deck, Mockito.mock(LogNotificationService.class), new PlayerFactoryMock(), roleDeck);
 		
 		game.addPlayer("Test1");
 		game.addPlayer("Test2");

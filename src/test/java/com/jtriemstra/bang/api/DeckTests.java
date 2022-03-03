@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.jtriemstra.bang.api.model.Game;
-import com.jtriemstra.bang.api.model.NotificationService;
+import com.jtriemstra.bang.api.model.LogNotificationService;
 import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.deck.CardDeck;
 import com.jtriemstra.bang.api.model.deck.CharacterDeck;
@@ -19,7 +19,7 @@ public class DeckTests extends TestBase {
 		CardDeck d = new RealCardDeck();
 		int initialSize = d.getSize();
 		
-		Game game = new Game("Test1", "Test1", Mockito.mock(CharacterDeck.class), d, Mockito.mock(NotificationService.class), new PlayerFactoryMock(), Mockito.mock(RoleDeck.class));
+		Game game = new Game("Test1", "Test1", Mockito.mock(CharacterDeck.class), d, Mockito.mock(LogNotificationService.class), new PlayerFactoryMock(), Mockito.mock(RoleDeck.class));
 		for (int i=0; i<initialSize; i++) {
 			Card c = game.draw();
 			game.discard(c);
