@@ -1,5 +1,6 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.state;
 
+import com.jtriemstra.bang.api.model.Role;
 import com.jtriemstra.bang.api.model.card.Gun;
 import com.jtriemstra.bang.api.model.character.Character;
 import com.jtriemstra.bang.api.model.player.Player;

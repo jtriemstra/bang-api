@@ -1,4 +1,4 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.state;
 
 import java.util.List;
 

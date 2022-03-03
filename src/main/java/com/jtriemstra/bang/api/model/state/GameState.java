@@ -1,8 +1,9 @@
-package com.jtriemstra.bang.api.model;
+package com.jtriemstra.bang.api.model.state;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.player.Player;
 
 import lombok.Data;

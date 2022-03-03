@@ -12,7 +12,6 @@ import com.jtriemstra.bang.api.dto.request.BaseRequest;
 import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.model.Game;
-import com.jtriemstra.bang.api.model.GameState;
 import com.jtriemstra.bang.api.model.Role;
 import com.jtriemstra.bang.api.model.action.ActionList;
 import com.jtriemstra.bang.api.model.action.BaseAction;
@@ -25,6 +24,7 @@ import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.card.Gun;
 import com.jtriemstra.bang.api.model.card.Playable;
 import com.jtriemstra.bang.api.model.character.Character;
+import com.jtriemstra.bang.api.model.state.GameState;
 
 import lombok.Getter;
 

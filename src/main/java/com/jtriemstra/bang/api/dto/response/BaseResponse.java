@@ -3,9 +3,9 @@ package com.jtriemstra.bang.api.dto.response;
 import java.util.Map;
 import java.util.UUID;
 
-import com.jtriemstra.bang.api.model.GameState;
 import com.jtriemstra.bang.api.model.action.PossibleActions;
 import com.jtriemstra.bang.api.model.card.Playable;
+import com.jtriemstra.bang.api.model.state.GameState;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
