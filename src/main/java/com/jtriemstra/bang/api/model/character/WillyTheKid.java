@@ -10,7 +10,7 @@ public class WillyTheKid extends Character {
 	}
 
 	@Override
-	public BangRule getBangRule(Player p) {
+	public BangRule createBangRule(Player p) {
 		return new BangRuleWillyTheKid();
 	}
 }

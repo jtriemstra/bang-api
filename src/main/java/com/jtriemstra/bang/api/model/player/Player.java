@@ -20,6 +20,7 @@ import com.jtriemstra.bang.api.model.action.DismissMessage;
 import com.jtriemstra.bang.api.model.action.Miss;
 import com.jtriemstra.bang.api.model.action.Play;
 import com.jtriemstra.bang.api.model.action.PossibleActions;
+import com.jtriemstra.bang.api.model.action.Waiting;
 import com.jtriemstra.bang.api.model.card.Card;
 import com.jtriemstra.bang.api.model.card.Gun;
 import com.jtriemstra.bang.api.model.card.Playable;
@@ -58,8 +59,8 @@ public class Player {
 		this.table = new Table();
 		this.currentHealth = this.maxHealth = character.getInitialHealth() + (role == Role.SHERIFF ? 1 : 0);
 		this.game = game;
-		this.bangRule = character.getBangRule(this);
-		actions.push(character.getPermanentWait());
+		this.bangRule = character.createBangRule(this);
+		actions.push(new Waiting());
 		this.messages = new ArrayList<>();
 	}
 	
@@ -260,7 +261,7 @@ public class Player {
 	}
 	
 	public Miss getMissAction(Card attackCard) {
-		return character.getMissAction(this, attackCard);
+		return character.createMissAction(this, attackCard);
 	}
 	
 	public void addMessage(String string) {

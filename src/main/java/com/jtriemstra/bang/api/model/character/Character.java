@@ -49,7 +49,7 @@ public class Character {
 		
 	}
 	
-	public Miss getMissAction(Player thisPlayer, Card attackCard) {
+	public Miss createMissAction(Player thisPlayer, Card attackCard) {
 		return new Miss(thisPlayer);
 	}
 	
@@ -71,12 +71,8 @@ public class Character {
 		//TODO: Vulture Sam
 	}
 
-	public BangRule getBangRule(Player player) {
+	public BangRule createBangRule(Player player) {
 		return new BangRuleDefault(player);
-	}
-	
-	public BaseAction[] getPermanentWait() {
-		return new BaseAction[] {new Waiting()};
 	}
 	
 	public List<BiFunction<Player, Card, Boolean>> getPlayInvalidRules() {

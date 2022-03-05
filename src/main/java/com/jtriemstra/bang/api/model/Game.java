@@ -155,6 +155,9 @@ public class Game {
 					if (p1.getRole() == Role.OUTLAW) {
 						p1.addMessage("You win");
 						p1.addNextAction(new Quit());
+					} else {
+						p1.addMessage("You lose");
+						p1.addNextAction(new Quit());
 					}
 				});
 				return true;

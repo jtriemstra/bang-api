@@ -12,7 +12,7 @@ public class SlabTheKiller extends Character {
 	}
 		
 	@Override
-	public Miss getMissAction(Player thisPlayer, Card attackCard) {
+	public Miss createMissAction(Player thisPlayer, Card attackCard) {
 		if (attackCard instanceof Bang) {
 			return new MissSlab(thisPlayer);
 		}

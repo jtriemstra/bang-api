@@ -38,23 +38,13 @@ public class Play extends BaseAction {
 		return 1;
 	}
 	
-//	public BiConsumer<PlayRequest, String[]> cardValidator = (playRequest, validCardNames) -> {
-//		if (validCardNames != null) {
-//			for (String s1 : playRequest.getCardNames()) {
-//				if (Arrays.stream(validCardNames).anyMatch(s -> s.equals(s1))) {
-//					throw new RuntimeException("card " + playRequest.getCardNames() + " is not valid to play now");
-//				}
-//			}
-//		}
-//	};
-	
 	@Override
 	public PlayResponse execute(ActionRequest request, Player player, Game game) {
 		PlayRequest playRequest = (PlayRequest) request;
 		
 		game.notify("Player " + player.getName() + " plays a " + playRequest.getCardNames()[0]);
 		
-		if (!Arrays.stream(playRequest.getCardIds()).allMatch(id -> validCardIds.contains(id))) {
+		if (validCardIds != null && !Arrays.stream(playRequest.getCardIds()).allMatch(id -> validCardIds.contains(id))) {
 			throw new RuntimeException("card " + playRequest.getCardNames() + " is not valid to play now");
 		}
 		
