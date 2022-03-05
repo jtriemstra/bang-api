@@ -102,7 +102,7 @@ public class Player {
 				
 				for (Card c : p.getHand().getCards()) {
 					if (!invalidRules.stream().anyMatch(r -> r.apply(p, c))) {
-						results.put(c.getId(), c);				
+						results.put(c.getId(), character.getPlayableFromCard(c, (Play) nextActions.getByName("play")));				
 					}
 				}
 				return results;
