@@ -5,8 +5,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class BaseRequest {
-	private String playerId;
-	private String gameName;
-	private String gameId;
+public class ActionRequest extends BaseRequest {
+	private String actionName;
 }

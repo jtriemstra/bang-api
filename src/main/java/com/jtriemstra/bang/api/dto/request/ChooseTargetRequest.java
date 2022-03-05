@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ChooseTargetRequest extends BaseRequest {
+public class ChooseTargetRequest extends ActionRequest {
 	private String targetId;
 	
 	@Override

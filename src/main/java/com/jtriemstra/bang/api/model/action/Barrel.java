@@ -2,7 +2,7 @@ package com.jtriemstra.bang.api.model.action;
 
 import java.util.function.Function;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.response.BarrelResponse;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.model.Game;
@@ -24,7 +24,7 @@ public class Barrel extends BaseAction implements CardCheckFlag {
 	}
 
 	@Override
-	public BaseResponse execute(BaseRequest request, Player player, Game game) {
+	public BaseResponse execute(ActionRequest request, Player player, Game game) {
 				
 		Card c = cardBehavior.apply(game);
 		

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class DiscardRequest extends BaseRequest {
+public class DiscardRequest extends ActionRequest {
 	private String[] cardNames;
 	private UUID[] cardIds;
 	

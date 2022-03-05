@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameList {
 	private HashMap<String, Game> games = new HashMap<>();
+	private HashMap<String, Game> gamesById = new HashMap<>();
 	
 	public void add(String name, Game game) {
 		games.put(name, game);
+		gamesById.put(game.getId(), game);
 	}
 	
 	public Set<String> list(){
@@ -19,5 +21,9 @@ public class GameList {
 	
 	public Game get(String name) {
 		return games.get(name);
+	}
+	
+	public Game getById(String id) {
+		return gamesById.get(id);
 	}
 }

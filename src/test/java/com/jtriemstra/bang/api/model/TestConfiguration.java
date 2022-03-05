@@ -1,5 +1,6 @@
 package com.jtriemstra.bang.api.model;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.mockito.Mockito;
@@ -22,5 +23,12 @@ public class TestConfiguration {
 			Mockito.doReturn(Role.SHERIFF, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW).when(result).draw();
 			return result;
 		};
+	}
+
+	@Bean
+	@Primary
+	@Profile("integration")
+	public Supplier<UUID> fakeIDGenerator() {
+		return () -> UUID.nameUUIDFromBytes("Test Game 1".getBytes());
 	}
 }

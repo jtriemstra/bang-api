@@ -1,6 +1,6 @@
 package com.jtriemstra.bang.api.model.action;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.DrawSourceResponse;
 import com.jtriemstra.bang.api.model.Game;
@@ -8,7 +8,7 @@ import com.jtriemstra.bang.api.model.player.Player;
 
 public class DrawSourceJesseJones extends DrawSource {
 	@Override
-	public BaseResponse execute(BaseRequest request, Player player, Game game) {
+	public BaseResponse execute(ActionRequest request, Player player, Game game) {
 		player.popAction();
 		
 		Player[] players = game.getPlayers().getArray();

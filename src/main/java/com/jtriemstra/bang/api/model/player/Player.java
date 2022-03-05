@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.model.Game;
@@ -68,7 +68,7 @@ public class Player {
 		bangRule.reset();
 	}
 	
-	public BaseResponse doAction(BaseRequest request) {
+	public BaseResponse doAction(ActionRequest request) {
 		BaseAction a = actions.getCurrentByName(request.getActionName());
 		BaseResponse response = a.execute(request, this, game);
 		character.addActions(this, actions);

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ChooseCardRequest extends BaseRequest {
+public class ChooseCardRequest extends ActionRequest {
 	
 	private String cardName;
 	private String[] cardNames;

@@ -81,6 +81,10 @@ public class IntegrationTests {
 		webClient = WebClient.builder().baseUrl("http://localhost:" + port).build();
 	}
 	
+	private String testGameId() {
+		return UUID.nameUUIDFromBytes("Test Game 1".getBytes()).toString();
+	}
+	
 	@Test
 	public void a001_create() {
 		CreateRequest request = new CreateRequest().setPlayerName("test1");
@@ -104,23 +108,23 @@ public class IntegrationTests {
 	@Test
 	public void a003_start() {
 		webClient.post().uri("/start").bodyValue(
-				new StartRequest().setGameName("test1")
+				new StartRequest().setGameId(testGameId())
 			).retrieve().bodyToMono(Object.class).block();
 	}
 	
 	@Test
 	public void a004_initial_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("draw", wait1.get("nextActions"));
@@ -139,7 +143,7 @@ public class IntegrationTests {
 	@Test
 	public void a006_turn1_draw() {
 		Map<String, Object> draw = webClient.post().uri("/draw").bodyValue(
-				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameName("test1").setPlayerId("test1")
+				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -152,7 +156,7 @@ public class IntegrationTests {
 	@Test
 	public void a007_turn1_discardRule() {
 		Map<String, Object> discard = webClient.post().uri("/discardRule").bodyValue(
-				new DiscardRuleRequest().setGameName("test1").setPlayerId("test1")
+				new DiscardRuleRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals(2, discard.get("numberToDiscard"));
@@ -164,7 +168,7 @@ public class IntegrationTests {
 		for (int i=0; i<cardNames.length; i++) cardNames[i] = state.getLastCards().get(i);
 		
 		Map<String, Object> discard = webClient.post().uri("/discard").bodyValue(
-				new DiscardRequest().setCardNames(cardNames).setCardIds(createUUIDs(new Bang("Q", "Hearts"), new Bang("6", "Diamonds"))).setGameName("test1").setPlayerId("test1")
+				new DiscardRequest().setCardNames(cardNames).setCardIds(createUUIDs(new Bang("Q", "Hearts"), new Bang("6", "Diamonds"))).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", discard.get("nextActions"));
@@ -173,16 +177,16 @@ public class IntegrationTests {
 	@Test
 	public void a009_turn1_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", wait1.get("nextActions"));
@@ -194,7 +198,7 @@ public class IntegrationTests {
 	@Test
 	public void a011_turn2_draw() {
 		Map<String, Object> draw = webClient.post().uri("/draw").bodyValue(
-				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameName("test1").setPlayerId("test2")
+				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -207,7 +211,7 @@ public class IntegrationTests {
 	@Test
 	public void a012_turn2_play() {
 		Map<String, Object> target = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("10", "Diamonds"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("10", "Diamonds"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("chooseTarget", target.get("nextActions"));	
@@ -218,7 +222,7 @@ public class IntegrationTests {
 	@Test
 	public void a013_turn2_chooseTarget() {
 		Map<String, Object> target = webClient.post().uri("/chooseTarget").bodyValue(
-				new ChooseTargetRequest().setTargetId("test1").setGameName("test1").setPlayerId("test2")
+				new ChooseTargetRequest().setTargetId("test1").setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", target.get("nextActions"));		
@@ -227,16 +231,16 @@ public class IntegrationTests {
 	@Test
 	public void a014_turn2_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("defenseOptions", wait1.get("nextActions"));
@@ -248,7 +252,7 @@ public class IntegrationTests {
 	@Test
 	public void a015_turn2_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test1")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("pass", target.get("nextActions"));		
@@ -257,16 +261,16 @@ public class IntegrationTests {
 	@Test
 	public void a016_turn2_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("pass", wait1.get("nextActions"));
@@ -278,7 +282,7 @@ public class IntegrationTests {
 	@Test
 	public void a017_turn2_pass() {
 		Map<String, Object> target = webClient.post().uri("/pass").bodyValue(
-				new PassRequest().setGameName("test1").setPlayerId("test1")
+				new PassRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", target.get("nextActions"));		
@@ -287,16 +291,16 @@ public class IntegrationTests {
 	@Test
 	public void a018_turn2_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -308,7 +312,7 @@ public class IntegrationTests {
 	@Test
 	public void a019_turn2_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Barrel"}).setCardIds(createUUIDs(new Barrel("7", "Diamonds"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Barrel"}).setCardIds(createUUIDs(new Barrel("7", "Diamonds"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;discardRule", play.get("nextActions"));
@@ -317,7 +321,7 @@ public class IntegrationTests {
 	@Test
 	public void a020_turn2_discardRule() {
 		Map<String, Object> discard = webClient.post().uri("/discardRule").bodyValue(
-				new DiscardRuleRequest().setGameName("test1").setPlayerId("test2")
+				new DiscardRuleRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals(0, discard.get("numberToDiscard"));
@@ -327,7 +331,7 @@ public class IntegrationTests {
 	public void a021_turn2_discard() {
 				
 		Map<String, Object> discard = webClient.post().uri("/discard").bodyValue(
-				new DiscardRequest().setCardNames(new String[] {}).setCardIds(new UUID[] {}).setGameName("test1").setPlayerId("test2")
+				new DiscardRequest().setCardNames(new String[] {}).setCardIds(new UUID[] {}).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", discard.get("nextActions"));
@@ -336,16 +340,16 @@ public class IntegrationTests {
 	@Test
 	public void a022_turn2_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -357,7 +361,7 @@ public class IntegrationTests {
 	@Test
 	public void a024_turn3_draw() {
 		Map<String, Object> draw = webClient.post().uri("/draw").bodyValue(
-				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameName("test1").setPlayerId("test3")
+				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -370,7 +374,7 @@ public class IntegrationTests {
 	@Test
 	public void a025_turn3_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Winchester"}).setCardIds(createUUIDs(new Winchester("8", "Clubs"))).setGameName("test1").setPlayerId("test3")
+				new PlayRequest().setCardNames(new String[] {"Winchester"}).setCardIds(createUUIDs(new Winchester("8", "Clubs"))).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;discardRule", play.get("nextActions"));
@@ -379,7 +383,7 @@ public class IntegrationTests {
 	@Test
 	public void a026_turn3_play() {
 		Map<String, Object> target = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("6", "Clubs"))).setGameName("test1").setPlayerId("test3")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("6", "Clubs"))).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("chooseTarget", target.get("nextActions"));	
@@ -390,7 +394,7 @@ public class IntegrationTests {
 	@Test
 	public void a027_turn3_chooseTarget() {
 		Map<String, Object> target = webClient.post().uri("/chooseTarget").bodyValue(
-				new ChooseTargetRequest().setTargetId("test2").setGameName("test1").setPlayerId("test3")
+				new ChooseTargetRequest().setTargetId("test2").setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", target.get("nextActions"));		
@@ -399,7 +403,7 @@ public class IntegrationTests {
 	@Test
 	public void a028_turn3_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test2")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("barrel;play;pass", target.get("nextActions"));		
@@ -411,7 +415,7 @@ public class IntegrationTests {
 	@Test
 	public void a029_turn3_play() {
 		Map<String, Object> target = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Missed"}).setCardIds(createUUIDs(new Missed("7", "Diamonds"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Missed"}).setCardIds(createUUIDs(new Missed("7", "Diamonds"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", target.get("nextActions"));	
@@ -420,16 +424,16 @@ public class IntegrationTests {
 	@Test
 	public void a030_turn3_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -441,7 +445,7 @@ public class IntegrationTests {
 	@Test
 	public void a031_turn3_discardRule() {
 		Map<String, Object> discard = webClient.post().uri("/discardRule").bodyValue(
-				new DiscardRuleRequest().setGameName("test1").setPlayerId("test3")
+				new DiscardRuleRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals(0, discard.get("numberToDiscard"));
@@ -451,7 +455,7 @@ public class IntegrationTests {
 	public void a032_turn3_discard() {
 				
 		Map<String, Object> discard = webClient.post().uri("/discard").bodyValue(
-				new DiscardRequest().setCardNames(new String[] {}).setCardIds(new UUID[] {}).setGameName("test1").setPlayerId("test3")
+				new DiscardRequest().setCardNames(new String[] {}).setCardIds(new UUID[] {}).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", discard.get("nextActions"));
@@ -460,16 +464,16 @@ public class IntegrationTests {
 	@Test
 	public void a033_turn3_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -481,7 +485,7 @@ public class IntegrationTests {
 	@Test
 	public void a035_turn4_draw() {
 		Map<String, Object> draw = webClient.post().uri("/draw").bodyValue(
-				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameName("test1").setPlayerId("test4")
+				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -494,7 +498,7 @@ public class IntegrationTests {
 	@Test
 	public void a036_turn4_play() {
 		Map<String, Object> generalStore = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"General Store"}).setCardIds(createUUIDs(new GeneralStore("A", "Diamonds"))).setGameName("test1").setPlayerId("test4")
+				new PlayRequest().setCardNames(new String[] {"General Store"}).setCardIds(createUUIDs(new GeneralStore("A", "Diamonds"))).setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("chooseCard", generalStore.get("nextActions"));	
@@ -505,7 +509,7 @@ public class IntegrationTests {
 	@Test
 	public void a037_turn4_general_store_draw() {
 		Map<String, Object> draw = webClient.post().uri("/chooseCard").bodyValue(
-				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("8", "Diamonds"))).setGameName("test1").setPlayerId("test4")
+				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("8", "Diamonds"))).setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -516,16 +520,16 @@ public class IntegrationTests {
 	@Test
 	public void a038_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("chooseCard", wait1.get("nextActions"));
@@ -541,7 +545,7 @@ public class IntegrationTests {
 	@Test
 	public void a039_turn4_general_store_draw() {
 		Map<String, Object> draw = webClient.post().uri("/chooseCard").bodyValue(
-				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("J", "Diamonds"))).setGameName("test1").setPlayerId("test1")
+				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("J", "Diamonds"))).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -552,16 +556,16 @@ public class IntegrationTests {
 	@Test
 	public void a040_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -577,7 +581,7 @@ public class IntegrationTests {
 	@Test
 	public void a041_turn4_general_store_draw() {
 		Map<String, Object> draw = webClient.post().uri("/chooseCard").bodyValue(
-				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("4", "Clubs"))).setGameName("test1").setPlayerId("test2")
+				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("4", "Clubs"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -588,16 +592,16 @@ public class IntegrationTests {
 	@Test
 	public void a042_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -613,7 +617,7 @@ public class IntegrationTests {
 	@Test
 	public void a043_turn4_general_store_draw() {
 		Map<String, Object> draw = webClient.post().uri("/chooseCard").bodyValue(
-				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("7", "Diamonds"))).setGameName("test1").setPlayerId("test3")
+				new ChooseCardRequest().setCardName("Bang").setCardId(createUUID(new Bang("7", "Diamonds"))).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -624,16 +628,16 @@ public class IntegrationTests {
 	@Test
 	public void a044_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("wait;dismissMessage", wait1.get("nextActions"));
@@ -647,7 +651,7 @@ public class IntegrationTests {
 	@Test
 	public void a045_turn4_play() {
 		Map<String, Object> indians = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Indians"}).setCardIds(createUUIDs(new Indians("6", "Diamonds"))).setGameName("test1").setPlayerId("test4")
+				new PlayRequest().setCardNames(new String[] {"Indians"}).setCardIds(createUUIDs(new Indians("6", "Diamonds"))).setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", indians.get("nextActions"));
@@ -656,16 +660,16 @@ public class IntegrationTests {
 	@Test
 	public void a046_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("defenseOptions", wait1.get("nextActions"));
@@ -679,16 +683,16 @@ public class IntegrationTests {
 	@Test
 	public void a047_turn4_defense() {
 		Map<String, Object> target1 = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test1")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> target2 = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test2")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> target3 = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test3")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("play;pass", target1.get("nextActions"));
@@ -701,7 +705,7 @@ public class IntegrationTests {
 	@Test
 	public void a048_turn4_pass() {
 		Map<String, Object> target = webClient.post().uri("/pass").bodyValue(
-				new PassRequest().setGameName("test1").setPlayerId("test1")
+				new PassRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", target.get("nextActions"));		
@@ -710,7 +714,7 @@ public class IntegrationTests {
 	@Test
 	public void a049_turn4_wait() {
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("wait", wait4.get("nextActions"));
@@ -720,10 +724,10 @@ public class IntegrationTests {
 	@Test
 	public void a050_turn4_play() {
 		Map<String, Object> play2 = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("4", "Clubs"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("4", "Clubs"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> play3 = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("7", "Diamonds"))).setGameName("test1").setPlayerId("test3")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("7", "Diamonds"))).setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", play2.get("nextActions"));
@@ -733,7 +737,7 @@ public class IntegrationTests {
 	@Test
 	public void a051_turn4_wait() {
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("play;discardRule", wait4.get("nextActions"));
@@ -743,7 +747,7 @@ public class IntegrationTests {
 	@Test
 	public void a052_turn4_discardRule() {
 		Map<String, Object> discard = webClient.post().uri("/discardRule").bodyValue(
-				new DiscardRuleRequest().setGameName("test1").setPlayerId("test4")
+				new DiscardRuleRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		// got an extra one from the general store
@@ -754,7 +758,7 @@ public class IntegrationTests {
 	public void a053_turn4_discard() {
 				
 		Map<String, Object> discard = webClient.post().uri("/discard").bodyValue(
-				new DiscardRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("8", "Diamonds"))).setGameName("test1").setPlayerId("test4")
+				new DiscardRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("8", "Diamonds"))).setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", discard.get("nextActions"));
@@ -763,16 +767,16 @@ public class IntegrationTests {
 	@Test
 	public void a054_turn4_wait() {
 		Map<String, Object> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, Object> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 
 		Assertions.assertEquals("draw", wait1.get("nextActions"));
@@ -785,7 +789,7 @@ public class IntegrationTests {
 	@Test
 	public void a056_turn5_draw() {
 		Map<String, Object> draw = webClient.post().uri("/draw").bodyValue(
-				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameName("test1").setPlayerId("test1")
+				new DrawRequest().setSourceName("deck").setNumberToDraw(2).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertTrue(draw.get("cards") instanceof List);
@@ -798,7 +802,7 @@ public class IntegrationTests {
 	@Test
 	public void a057_turn5_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Duel"}).setCardIds(createUUIDs(new Duel("Q", "Hearts"))).setGameName("test1").setPlayerId("test1")
+				new PlayRequest().setCardNames(new String[] {"Duel"}).setCardIds(createUUIDs(new Duel("Q", "Hearts"))).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 				
 		Assertions.assertEquals("chooseTarget", play.get("nextActions"));
@@ -809,7 +813,7 @@ public class IntegrationTests {
 	@Test
 	public void a058_turn5_chooseTarget() {
 		Map<String, Object> target = webClient.post().uri("/chooseTarget").bodyValue(
-				new ChooseTargetRequest().setTargetId("test2").setGameName("test1").setPlayerId("test1")
+				new ChooseTargetRequest().setTargetId("test2").setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", target.get("nextActions"));		
@@ -818,16 +822,16 @@ public class IntegrationTests {
 	@Test
 	public void a059_turn5_wait() {
 		Map<String, String> wait1 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test1")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait2 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test2")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait3 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test3")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test3")
 			).retrieve().bodyToMono(Map.class).block();
 		Map<String, String> wait4 = webClient.post().uri("/wait").bodyValue(
-				new WaitingRequest().setGameName("test1").setPlayerId("test4")
+				new WaitingRequest().setGameId(testGameId()).setPlayerId("test4")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait", wait1.get("nextActions"));
@@ -839,7 +843,7 @@ public class IntegrationTests {
 	@Test
 	public void a060_turn5_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test2")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;pass", target.get("nextActions"));	
@@ -850,7 +854,7 @@ public class IntegrationTests {
 	@Test
 	public void a061_turn5_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("4", "Diamonds"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("4", "Diamonds"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 				
 		Assertions.assertEquals("wait", play.get("nextActions"));
@@ -860,7 +864,7 @@ public class IntegrationTests {
 	@Test
 	public void a062_turn5_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test1")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;pass", target.get("nextActions"));		
@@ -869,7 +873,7 @@ public class IntegrationTests {
 	@Test
 	public void a063_turn5_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("9", "Clubs"))).setGameName("test1").setPlayerId("test1")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("9", "Clubs"))).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 				
 		Assertions.assertEquals("wait", play.get("nextActions"));
@@ -878,7 +882,7 @@ public class IntegrationTests {
 	@Test
 	public void a064_turn5_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test2")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;pass", target.get("nextActions"));		
@@ -887,7 +891,7 @@ public class IntegrationTests {
 	@Test
 	public void a065_turn5_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("5", "Diamonds"))).setGameName("test1").setPlayerId("test2")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("5", "Diamonds"))).setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 				
 		Assertions.assertEquals("wait", play.get("nextActions"));
@@ -897,7 +901,7 @@ public class IntegrationTests {
 	@Test
 	public void a066_turn5_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test1")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("play;pass", target.get("nextActions"));		
@@ -906,7 +910,7 @@ public class IntegrationTests {
 	@Test
 	public void a067_turn5_play() {
 		Map<String, Object> play = webClient.post().uri("/play").bodyValue(
-				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("7", "Diamonds"))).setGameName("test1").setPlayerId("test1")
+				new PlayRequest().setCardNames(new String[] {"Bang"}).setCardIds(createUUIDs(new Bang("7", "Diamonds"))).setGameId(testGameId()).setPlayerId("test1")
 			).retrieve().bodyToMono(Map.class).block();
 				
 		Assertions.assertEquals("wait", play.get("nextActions"));
@@ -915,7 +919,7 @@ public class IntegrationTests {
 	@Test
 	public void a068_turn5_defenseOptions() {
 		Map<String, Object> target = webClient.post().uri("/defenseOptions").bodyValue(
-				new DefenseOptionsRequest().setGameName("test1").setPlayerId("test2")
+				new DefenseOptionsRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("pass", target.get("nextActions"));		
@@ -924,7 +928,7 @@ public class IntegrationTests {
 	@Test
 	public void a069_turn5_pass() {
 		Map<String, Object> target = webClient.post().uri("/pass").bodyValue(
-				new PassRequest().setGameName("test1").setPlayerId("test2")
+				new PassRequest().setGameId(testGameId()).setPlayerId("test2")
 			).retrieve().bodyToMono(Map.class).block();
 		
 		Assertions.assertEquals("wait;dismissMessage", target.get("nextActions"));		

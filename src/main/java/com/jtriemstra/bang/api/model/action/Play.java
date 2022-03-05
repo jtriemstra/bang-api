@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
 import com.jtriemstra.bang.api.model.Game;
@@ -49,7 +49,7 @@ public class Play extends BaseAction {
 //	};
 	
 	@Override
-	public PlayResponse execute(BaseRequest request, Player player, Game game) {
+	public PlayResponse execute(ActionRequest request, Player player, Game game) {
 		PlayRequest playRequest = (PlayRequest) request;
 		
 		game.notify("Player " + player.getName() + " plays a " + playRequest.getCardNames()[0]);

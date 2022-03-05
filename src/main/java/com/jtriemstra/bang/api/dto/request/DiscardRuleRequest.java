@@ -1,10 +1,10 @@
 package com.jtriemstra.bang.api.dto.request;
 
-public class DiscardRuleRequest extends BaseRequest {
+public class DiscardRuleRequest extends ActionRequest {
 
 	private String actionName = "discardRule";
 	
-	public BaseRequest setActionName(String in) {
+	public ActionRequest setActionName(String in) {
 		actionName = in;
 		return this;
 	}

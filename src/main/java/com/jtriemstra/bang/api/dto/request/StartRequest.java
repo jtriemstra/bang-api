@@ -5,6 +5,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class StartRequest {
-	private String gameName;
+public class StartRequest extends BaseRequest {
+	
 }

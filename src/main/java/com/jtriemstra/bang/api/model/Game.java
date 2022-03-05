@@ -3,16 +3,16 @@ package com.jtriemstra.bang.api.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import com.jtriemstra.bang.api.model.action.Quit;
 import com.jtriemstra.bang.api.model.card.Card;
-import com.jtriemstra.bang.api.model.character.Character;
 import com.jtriemstra.bang.api.model.deck.CardDeck;
 import com.jtriemstra.bang.api.model.deck.CharacterDeck;
 import com.jtriemstra.bang.api.model.deck.RoleDeck;
 import com.jtriemstra.bang.api.model.player.Player;
 import com.jtriemstra.bang.api.model.player.PlayerFactory;
+
+import lombok.Getter;
 
 public class Game {
 	private List<String> playerNames;
@@ -25,6 +25,8 @@ public class Game {
 	private Player currentPlayer;
 	private NotificationService notifications;
 	private PlayerFactory playerFactory;
+	@Getter
+	private String id;
 		
 	public Game(String name, String id, CharacterDeck characters, CardDeck cards, NotificationService notifications, PlayerFactory playerFactory, RoleDeck roleDeck) {
 		this.name = name;
@@ -36,6 +38,7 @@ public class Game {
 		this.discard = new DiscardPile();
 		this.notifications = notifications;
 		this.playerFactory = playerFactory;
+		this.id = id;
 	}
 	
 	public PlayerList getPlayers() {return players;}

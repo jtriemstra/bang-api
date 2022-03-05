@@ -1,6 +1,6 @@
 package com.jtriemstra.bang.api.model.action;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.response.PlayResponse;
 import com.jtriemstra.bang.api.model.Game;
@@ -13,7 +13,7 @@ public class MissIndians extends Miss {
 	}
 	
 	@Override
-	public PlayResponse execute(BaseRequest request, Player player, Game game) {
+	public PlayResponse execute(ActionRequest request, Player player, Game game) {
 		PlayRequest missRequest = (PlayRequest) request;
 		Card c = player.getCardById(missRequest.getCardIds()[0]);
 		

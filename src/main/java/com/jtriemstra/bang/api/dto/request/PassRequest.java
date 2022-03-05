@@ -1,6 +1,6 @@
 package com.jtriemstra.bang.api.dto.request;
 
-public class PassRequest extends BaseRequest {
+public class PassRequest extends ActionRequest {
 
 	
 	@Override

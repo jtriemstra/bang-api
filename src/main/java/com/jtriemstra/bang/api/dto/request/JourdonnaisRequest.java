@@ -1,6 +1,6 @@
 package com.jtriemstra.bang.api.dto.request;
 
-public class JourdonnaisRequest extends BaseRequest {
+public class JourdonnaisRequest extends ActionRequest {
 	@Override
 	public String getActionName() {
 		return "jourdonnais";

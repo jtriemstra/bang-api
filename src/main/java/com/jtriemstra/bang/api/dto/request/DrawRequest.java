@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class DrawRequest extends BaseRequest {
+public class DrawRequest extends ActionRequest {
 	private String sourceName;
 	private int numberToDraw;
 	

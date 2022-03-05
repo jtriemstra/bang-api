@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class PlayRequest extends BaseRequest {
+public class PlayRequest extends ActionRequest {
 
 	private String[] cardNames;
 	private UUID[] cardIds;

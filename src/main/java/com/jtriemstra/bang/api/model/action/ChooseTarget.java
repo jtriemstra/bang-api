@@ -2,7 +2,7 @@ package com.jtriemstra.bang.api.model.action;
 
 import java.util.List;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.ChooseTargetRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.WaitingResponse;
@@ -26,7 +26,7 @@ public class ChooseTarget extends BaseAction {
 	}
 	
 	@Override
-	public BaseResponse execute(BaseRequest request, Player player, Game game) {
+	public BaseResponse execute(ActionRequest request, Player player, Game game) {
 		ChooseTargetRequest chooseTargetRequest = (ChooseTargetRequest) request;
 		Player target = game.getPlayerById(chooseTargetRequest.getTargetId());
 		

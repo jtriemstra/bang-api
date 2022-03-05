@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.ChooseCardRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
 import com.jtriemstra.bang.api.dto.response.ChooseCardResponse;
@@ -22,7 +22,7 @@ public class DrawKitCarlson extends BaseAction {
 	}
 
 	@Override
-	public BaseResponse execute(BaseRequest request, Player player, Game game) {
+	public BaseResponse execute(ActionRequest request, Player player, Game game) {
 		if (revealedCards == null) {
 			revealedCards = new ArrayList<>();
 			

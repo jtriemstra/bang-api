@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jtriemstra.bang.api.dto.request.BarrelRequest;
+import com.jtriemstra.bang.api.dto.request.BaseRequest;
 import com.jtriemstra.bang.api.dto.request.ChooseCardRequest;
 import com.jtriemstra.bang.api.dto.request.ChooseTargetRequest;
 import com.jtriemstra.bang.api.dto.request.CreateRequest;
@@ -25,6 +26,7 @@ import com.jtriemstra.bang.api.dto.request.PlayRequest;
 import com.jtriemstra.bang.api.dto.request.StartRequest;
 import com.jtriemstra.bang.api.dto.request.WaitingRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
+import com.jtriemstra.bang.api.dto.response.InitResponse;
 import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.GameFactory;
 import com.jtriemstra.bang.api.model.GameList;
@@ -46,7 +48,7 @@ public class MainController {
 	public BaseResponse drawSource(@RequestBody DrawSourceRequest request) {
 		log.info("drawSource");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -54,7 +56,7 @@ public class MainController {
 	public BaseResponse draw(@RequestBody DrawRequest request) {
 		log.info("draw");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -63,8 +65,8 @@ public class MainController {
 	public BaseResponse chooseCard(@RequestBody ChooseCardRequest request) {
 		log.info("chooseCard");
 		  
-		Game game = games.get(request.getGameName()); return
-		game.getPlayerById(request.getPlayerId()).doAction(request); 
+		Game game = getFromRequest(request); 
+		return game.getPlayerById(request.getPlayerId()).doAction(request); 
 	}
 	 
 	
@@ -72,7 +74,7 @@ public class MainController {
 	public BaseResponse wait(@RequestBody WaitingRequest request) {
 		log.info("wait");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}	 
 	
@@ -80,7 +82,7 @@ public class MainController {
 	public BaseResponse barrel(@RequestBody BarrelRequest request) {
 		log.info("barrel");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -88,7 +90,7 @@ public class MainController {
 	public BaseResponse play(@RequestBody PlayRequest request) {
 		log.info("play");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -96,7 +98,7 @@ public class MainController {
 	public BaseResponse chooseTarget(@RequestBody ChooseTargetRequest request) {
 		log.info("chooseTarget");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 
@@ -104,7 +106,7 @@ public class MainController {
 	public BaseResponse defenseOptions(@RequestBody DefenseOptionsRequest request) {
 		log.info("defenseOptions");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 
@@ -112,7 +114,7 @@ public class MainController {
 	public BaseResponse pass(@RequestBody PassRequest request) {
 		log.info("pass");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -120,7 +122,7 @@ public class MainController {
 	public BaseResponse discardRule(@RequestBody DiscardRuleRequest request) {
 		log.info("discardRule");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -128,42 +130,45 @@ public class MainController {
 	public BaseResponse discard(@RequestBody DiscardRequest request) {
 		log.info("discard");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
 	@PostMapping("/join")
-	public void joinGame(@RequestBody JoinRequest request) {
+	public InitResponse joinGame(@RequestBody JoinRequest request) {
 		log.info("joinGame");
 		
-		games.get(request.getGameName()).addPlayer(request.getPlayerName());
-		
+		Game game = getFromRequest(request); 
+		game.addPlayer(request.getPlayerName());
+
+		return new InitResponse().setId(game.getId());
 	}
 	
 	@PostMapping("/start")
 	public void startGame(@RequestBody StartRequest request) {
 		log.info("startGame");
 		
-		games.get(request.getGameName()).start();
+		Game game = getFromRequest(request); 
+		game.start();
 		
 	}
 	
 	@PostMapping("/create")
-	public void createGame(@RequestBody CreateRequest request) {
+	public InitResponse createGame(@RequestBody CreateRequest request) {
 		log.info("createGame");
 		
 		Game game = gameFactory.create(request.getPlayerName());
 		game.addPlayer(request.getPlayerName());
 		games.add(request.getPlayerName(), game);
 		
-		
+		return new InitResponse().setId(game.getId());
 	}
 	
 	@PostMapping("/dismissMessage")
 	public BaseResponse dismissMessage(@RequestBody DismissMessageRequest request) {
 		log.info("dismissMessage");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
@@ -171,11 +176,19 @@ public class MainController {
 	public BaseResponse discardSidKetchum(@RequestBody DiscardSidKetchumRequest request) {
 		log.info("discardSidKetchum");
 		
-		Game game = games.get(request.getGameName());
+		Game game = getFromRequest(request);
 		return game.getPlayerById(request.getPlayerId()).doAction(request);
 	}
 	
 	public Set<String> listGames() {
 		return games.list();
+	}
+	
+	private Game getFromRequest(BaseRequest request) {
+		return games.getById(request.getGameId());
+	}
+	
+	private Game getFromRequest(JoinRequest request) {
+		return games.get(request.getGameName());
 	}
 }

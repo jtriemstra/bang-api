@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
-import com.jtriemstra.bang.api.dto.request.BaseRequest;
+import com.jtriemstra.bang.api.dto.request.ActionRequest;
 import com.jtriemstra.bang.api.dto.request.DrawRequest;
 import com.jtriemstra.bang.api.dto.request.DrawSourceRequest;
 import com.jtriemstra.bang.api.dto.response.BaseResponse;
@@ -43,7 +43,7 @@ public class Draw extends BaseAction {
 	}
 	
 	@Override
-	public BaseResponse execute(BaseRequest request, Player player, Game game) {
+	public BaseResponse execute(ActionRequest request, Player player, Game game) {
 		DrawRequest drawRequest = (DrawRequest) request;
 		
 		if (currentDrawSource == null) {

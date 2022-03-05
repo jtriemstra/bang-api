@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class LuckyDukeRequest extends BaseRequest {
+public class LuckyDukeRequest extends ActionRequest {
 	
 	private String action;
 	private UUID useId;
