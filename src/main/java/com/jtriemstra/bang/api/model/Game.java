@@ -2,7 +2,10 @@ package com.jtriemstra.bang.api.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import com.jtriemstra.bang.api.model.action.Quit;
 import com.jtriemstra.bang.api.model.card.Card;
@@ -27,6 +30,7 @@ public class Game {
 	private PlayerFactory playerFactory;
 	@Getter
 	private String id;
+	private Map<String, List<Consumer<Player>>> playerEvents;
 		
 	public Game(String name, String id, CharacterDeck characters, CardDeck cards, NotificationService notifications, PlayerFactory playerFactory, RoleDeck roleDeck) {
 		this.name = name;
@@ -39,6 +43,7 @@ public class Game {
 		this.notifications = notifications;
 		this.playerFactory = playerFactory;
 		this.id = id;
+		this.playerEvents = new HashMap<>();
 	}
 	
 	public PlayerList getPlayers() {return players;}
@@ -130,6 +135,8 @@ public class Game {
 	}
 	
 	public boolean killPlayer(Player p, Player attacker) {
+		raiseEvent("death", p);
+		
 		players.remove(p);
 		switch (attacker.getRole()) {
 		case SHERIFF:
@@ -165,5 +172,18 @@ public class Game {
 			break;
 		}
 		return false;
+	}
+
+	public void addPlayerEventListener(String eventType, Consumer<Player> handler) {
+		if (!playerEvents.containsKey(eventType)) {
+			playerEvents.put(eventType, new ArrayList<>());
+		}
+		playerEvents.get(eventType).add(handler);
+	}
+	
+	public void raiseEvent(String eventType, Player p) {
+		if (playerEvents.containsKey(eventType)) {
+			playerEvents.get(eventType).forEach(h -> h.accept(p));	
+		}
 	}
 }

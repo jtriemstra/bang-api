@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
+import com.jtriemstra.bang.api.model.Game;
 import com.jtriemstra.bang.api.model.action.ActionList;
 import com.jtriemstra.bang.api.model.action.BaseAction;
 import com.jtriemstra.bang.api.model.action.DefenseRule;
@@ -66,10 +67,6 @@ public class Character {
 		in.push(new Draw(2, "deck"));
 		return in;
 	}
-	
-	public void registerGameListener() {
-		//TODO: Vulture Sam
-	}
 
 	public BangRule createBangRule(Player player) {
 		return new BangRuleDefault(player);
@@ -97,6 +94,10 @@ public class Character {
 	}
 
 	public void addActions(Player p, ActionList actions) {
+		
+	}
+
+	public void init(Player player, Game game) {
 		
 	}
 }

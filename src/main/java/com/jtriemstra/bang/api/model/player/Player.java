@@ -60,6 +60,7 @@ public class Player {
 		this.currentHealth = this.maxHealth = character.getInitialHealth() + (role == Role.SHERIFF ? 1 : 0);
 		this.game = game;
 		this.bangRule = character.createBangRule(this);
+		character.init(this, game);
 		actions.push(new Waiting());
 		this.messages = new ArrayList<>();
 	}
